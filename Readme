@@ -1,0 +1,96 @@
+1.The unzipped tar syerram1-project2.tar.gz file contains the following files
+a.ReadMe 
+b.controller directory  
+c.branch directory 
+d.gen-java containing the generated java stub code for branch.thrift 
+e.MakeFile to compile the controller and branch source code  
+
+controller directory:  controller will contain the
+a. src directory-->   1. Controller.java 2. BranchRecieveHandler.java 3.BranchClientHandler.java  4.BranchServer.java
+b. controller.sh --> Executable to run the controller
+
+branch directory: branch will contain 
+a. src directory --> 1. Controller.java 2. BranchRecieveHandler.java 3.BranchClientHandler.java  4.BranchServer.java
+b. branch.sh -->  Executable to run the branch 
+ 
+
+
+Implementation (Programming Language : java):
+
+1. Branch implementation : A TthreadpoolServer server with handler is created to handle transfer,initialize branch, initiate snapshot reciever marker and 
+retrieve snapshot requests from controller and other branches. The branch automatically transfers money to other servers schedules in time between
+o to 5 seconds amounts of 1-5 percent of initial balances. Branch will also function as client to send requests to other branches. 
+
+
+
+2. Controller implementation :  Controller will initialize all the branches with balances and also trigger the snapshot to random branches 
+and collects the snapshots regularly and displays to console.  
+
+
+
+Steps to execute the distributed banking system to capture global snapshot.
+
+Step1:
+How to compile :
+
+1.On running the command "make" in the location of directory where MakeFile is found the source code is 
+compiled and  classes are put into respective controller/bin and branch/bin directories.
+	
+	
+Step:2
+How to Run branches:
+
+1. navigate into the   "branch" directory 
+2. Run the command "./branch.sh branchName portNo"  
+
+Example run the branches on remote04.cs.binghamton.edu : 
+
+"./branch.sh branch1 8088"
+
+"./branch.sh branch2 8089"
+
+"./branch.sh branch3 8090"
+
+
+sample output of branch server:
+Running branch1 on ip 128.226.180.163 port No: 8088
+Starting the TThreadPoolServer server...
+
+
+
+
+Step3 :
+How to run the controller:	
+
+1.Create input file to give the branches input  to the controller inside controller directory. 
+Let input file be branches.txt 
+
+1. command to run the controller "./controller.sh amount(Integer)  fileName(eg: branches.txt)" 
+
+./controller.sh 300 branches.txt 
+
+
+Sample snapshots:
+
+
+Initiating snapshot for branch3 with snapshot no :1
+
+Retrieving snapshot from branch1
+{ branch1  100} {branch2->branch1  0} {branch3->branch1  0}
+Retrieving snapshot from branch2
+{ branch2  100} {branch1->branch2  0} {branch3->branch2  0}
+Retrieving snapshot from branch3
+{ branch3  100} {branch1->branch3  0} {branch2->branch3  0}
+
+Initiating snapshot for branch1 with snapshot no :2
+
+Retrieving snapshot from branch1
+{ branch1  95} {branch2->branch1  0} {branch3->branch1  0}
+Retrieving snapshot from branch2
+{ branch2  96} {branch1->branch2  0} {branch3->branch2  0}
+Retrieving snapshot from branch3
+{ branch3  109} {branch1->branch3  0} {branch2->branch3  0}
+
+ 
+
+
